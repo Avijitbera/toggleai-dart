@@ -8,7 +8,7 @@
 ///   - Client lifecycle
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:toggleai/dart_sdk.dart';
+import 'package:toggleai/toggleai.dart';
 import 'package:toggleai/src/evaluator.dart';
 
 // ─────────────────────────────────────────────────────────────
@@ -71,8 +71,10 @@ void main() {
     });
 
     test('is deterministic — same input always produces same output', () {
-      expect(hashBucket('user_42', 'dark-mode'), equals(hashBucket('user_42', 'dark-mode')));
-      expect(hashBucket('alice', 'checkout'), equals(hashBucket('alice', 'checkout')));
+      expect(hashBucket('user_42', 'dark-mode'),
+          equals(hashBucket('user_42', 'dark-mode')));
+      expect(hashBucket('alice', 'checkout'),
+          equals(hashBucket('alice', 'checkout')));
     });
 
     test('different users produce different buckets (distribution)', () {
@@ -127,7 +129,8 @@ void main() {
       expect(result.value, 'special_value');
     });
 
-    test('step 3 — user override does not apply when userId not in overrides', () {
+    test('step 3 — user override does not apply when userId not in overrides',
+        () {
       final flag = makeFlag(
         userOverrides: {'other_user': 'special_value'},
       );
@@ -181,7 +184,9 @@ void main() {
       expect(result.reason, EvaluationReason.defaultValue);
     });
 
-    test('step 5 — no userId with rollout < 100 returns DEFAULT (no consistent bucketing)', () {
+    test(
+        'step 5 — no userId with rollout < 100 returns DEFAULT (no consistent bucketing)',
+        () {
       final flag = makeFlag(rolloutPercentage: 50);
       final result = evaluateFlag(flag, const EvaluationContext());
 
@@ -219,13 +224,15 @@ void main() {
     }
 
     test('eq', () {
-      const cond = TargetingCondition(attribute: 'plan', op: 'eq', value: 'pro');
+      const cond =
+          TargetingCondition(attribute: 'plan', op: 'eq', value: 'pro');
       expect(evaluates(cond, {'plan': 'pro'}), isTrue);
       expect(evaluates(cond, {'plan': 'free'}), isFalse);
     });
 
     test('neq', () {
-      const cond = TargetingCondition(attribute: 'plan', op: 'neq', value: 'free');
+      const cond =
+          TargetingCondition(attribute: 'plan', op: 'neq', value: 'free');
       expect(evaluates(cond, {'plan': 'pro'}), isTrue);
       expect(evaluates(cond, {'plan': 'free'}), isFalse);
     });
@@ -250,7 +257,8 @@ void main() {
     });
 
     test('lte', () {
-      const cond = TargetingCondition(attribute: 'score', op: 'lte', value: 100);
+      const cond =
+          TargetingCondition(attribute: 'score', op: 'lte', value: 100);
       expect(evaluates(cond, {'score': 100}), isTrue);
       expect(evaluates(cond, {'score': 101}), isFalse);
     });
@@ -276,25 +284,29 @@ void main() {
     });
 
     test('contains', () {
-      const cond = TargetingCondition(attribute: 'email', op: 'contains', value: '@acme');
+      const cond = TargetingCondition(
+          attribute: 'email', op: 'contains', value: '@acme');
       expect(evaluates(cond, {'email': 'john@acme.com'}), isTrue);
       expect(evaluates(cond, {'email': 'john@gmail.com'}), isFalse);
     });
 
     test('not_contains', () {
-      const cond = TargetingCondition(attribute: 'email', op: 'not_contains', value: '@acme');
+      const cond = TargetingCondition(
+          attribute: 'email', op: 'not_contains', value: '@acme');
       expect(evaluates(cond, {'email': 'john@gmail.com'}), isTrue);
       expect(evaluates(cond, {'email': 'john@acme.com'}), isFalse);
     });
 
     test('starts_with', () {
-      const cond = TargetingCondition(attribute: 'id', op: 'starts_with', value: 'beta_');
+      const cond = TargetingCondition(
+          attribute: 'id', op: 'starts_with', value: 'beta_');
       expect(evaluates(cond, {'id': 'beta_user_1'}), isTrue);
       expect(evaluates(cond, {'id': 'user_1'}), isFalse);
     });
 
     test('ends_with', () {
-      const cond = TargetingCondition(attribute: 'email', op: 'ends_with', value: '.io');
+      const cond =
+          TargetingCondition(attribute: 'email', op: 'ends_with', value: '.io');
       expect(evaluates(cond, {'email': 'admin@company.io'}), isTrue);
       expect(evaluates(cond, {'email': 'admin@company.com'}), isFalse);
     });
@@ -312,7 +324,8 @@ void main() {
     });
 
     test('regex', () {
-      const cond = TargetingCondition(attribute: 'email', op: 'regex', value: r'^[a-z]+@');
+      const cond = TargetingCondition(
+          attribute: 'email', op: 'regex', value: r'^[a-z]+@');
       expect(evaluates(cond, {'email': 'alice@example.com'}), isTrue);
       expect(evaluates(cond, {'email': 'Alice@example.com'}), isFalse);
     });
@@ -406,11 +419,15 @@ void main() {
     test('maps all backend reason strings correctly', () {
       expect(EvaluationReason.fromString('OFF'), EvaluationReason.off);
       expect(EvaluationReason.fromString('KILLED'), EvaluationReason.killed);
-      expect(EvaluationReason.fromString('OVERRIDE'), EvaluationReason.override);
-      expect(EvaluationReason.fromString('TARGETING_MATCH'), EvaluationReason.targetingMatch);
+      expect(
+          EvaluationReason.fromString('OVERRIDE'), EvaluationReason.override);
+      expect(EvaluationReason.fromString('TARGETING_MATCH'),
+          EvaluationReason.targetingMatch);
       expect(EvaluationReason.fromString('ROLLOUT'), EvaluationReason.rollout);
-      expect(EvaluationReason.fromString('DEFAULT'), EvaluationReason.defaultValue);
-      expect(EvaluationReason.fromString('FLAG_NOT_FOUND'), EvaluationReason.flagNotFound);
+      expect(EvaluationReason.fromString('DEFAULT'),
+          EvaluationReason.defaultValue);
+      expect(EvaluationReason.fromString('FLAG_NOT_FOUND'),
+          EvaluationReason.flagNotFound);
       expect(EvaluationReason.fromString('UNKNOWN'), EvaluationReason.error);
     });
   });
@@ -501,10 +518,11 @@ void main() {
           disableCache: true, // disable fetching
         ),
       );
-      
+
       // Inject dummy payload into client via reflection/helper if needed,
       // or evaluate with raw functions since getEvaluation/evaluateFlag uses evaluateFlag under the hood.
-      final result1 = evaluateFlag(flag, const EvaluationContext(userId: 'u_1'));
+      final result1 =
+          evaluateFlag(flag, const EvaluationContext(userId: 'u_1'));
       expect(result1.enabled, isTrue);
       expect(result1.value, equals('test'));
     });
