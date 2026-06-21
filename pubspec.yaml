@@ -1,7 +1,7 @@
 name: toggleai
 description: "ToggleAI Flutter/Dart SDK — feature flags, remote config, and A/B testing for Flutter apps."
-version: 0.1.2
-homepage: https://toggleai-docs.vercel.app
+version: 0.1.3
+homepage: https://toggleai.fun
 repository: https://github.com/Avijitbera/toggleai-dart.git
 
 

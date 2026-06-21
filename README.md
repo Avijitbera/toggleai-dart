@@ -1,11 +1,11 @@
 # ToggleAI Flutter/Dart SDK
 
-The official Dart and Flutter SDK for [ToggleAI](https://toggle-ai-seven.vercel.app) — feature flags, remote config, logging, and A/B testing.
+The official Dart and Flutter SDK for [ToggleAI](https://toggleai.fun) — feature flags, remote config, logging, and A/B testing.
 
 ## 🔗 Quick Links
 
-- 🌐 [Official Website](https://toggle-ai-seven.vercel.app)
-- 📚 [Documentation Portal](https://toggleai-docs.vercel.app)
+- 🌐 [Official Website](https://toggleai.fun)
+- 📚 [Documentation Portal](https://docs.toggleai.fun)
 
 ## Features
 
@@ -27,7 +27,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  toggleai: 0.1.2
+  toggleai: 0.1.3
 ```
 
 ## Quick Start
